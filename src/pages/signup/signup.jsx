@@ -1,6 +1,23 @@
+import axios from 'axios';
 import React from 'react'
 
 const Signup = () => {
+    const handleBotApi = async () => {
+        try {
+          let payLoad = {
+            email: "admin@gmail.com",
+            password: "12345678"
+          };
+      
+          const response = await axios.post("/api/v1/users/login", payLoad);
+      
+          const data = response.data;
+          console.log(data, "data");
+          // setBot(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
     const shadow = '4px 4px 4px 0px rgba(0, 0, 0, 0.25), -1px 4px 6.3px 0px rgba(255, 255, 255, 0.50), 0px -2px 4px 0px rgba(0, 0, 0, 0.25)';
     return (
         <div className="login" >
@@ -52,6 +69,7 @@ const Signup = () => {
                         <button
                             className="bg-[#295dfa]  w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
                             type="button"
+                            onClick={handleBotApi}
                         >
                             Register
                         </button>

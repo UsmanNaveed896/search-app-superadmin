@@ -7,8 +7,8 @@ import Img4 from '../../assets/Group143.png'
 
 const Header = () => {
     return (
-        <div className="flex justify-center">
-        <div className="container px-8">
+        <div className="flex justify-end fixed top-0 w-full">
+        <div className="container max-w-[1300px] px-8">
                
                     <div className="flex justify-between gap-3 items-center">
                         <div className='flex gap-6 items-center'>

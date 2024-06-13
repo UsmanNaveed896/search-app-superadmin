@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Img from '../../assets/Group 158.png'
+import { useVirtualOfficeHook } from '../hooks/useGetVirtualOffice'
 const VirtualOffice = () => {
+    const virtualOffice=useVirtualOfficeHook();
+    useEffect(()=>{
+        virtualOffice.getAllVirtualOffices()
+    },[])
     return (
         <div className="flex justify-center">
             <div className="container max-w-[1000px]">
