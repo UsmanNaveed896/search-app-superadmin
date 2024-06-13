@@ -13,6 +13,8 @@ import Subscription from './pages/subscription/subscription'
 import Meetings from './pages/meetings/meetings'
 import Layout from '../src/layouts/sidebarDrawer'
 import Login from './pages/login/login'
+import Livestreaming from './pages/golive/livestreaming'
+import { Video } from './pages/golive/uiLayout'
 
 const Routess = () => {
     const location = useLocation();
@@ -34,6 +36,11 @@ const Routess = () => {
       <Route exact path='/verificationdetail' element={<VerificationReqDetail/>} />
       <Route exact path='/subscription' element={<Subscription/>} />
       <Route exact path='/meetings' element={<Meetings/>} />
+      <Route exact path='/livestream' element={<Video/>} />
+
+     
+     
+
       </Route>
     </Routes>
     </>

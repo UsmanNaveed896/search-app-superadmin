@@ -84,6 +84,23 @@ const Drawer = () => {
                 </li>
               </Link>
 
+              <Link to="/livestream">
+                <li
+                  className={`cursor-pointer  ${
+                    selectedLink === "golive" ? "font-bold" : ""
+                  } ${
+                    selectedLink === "golive"
+                      ? "text-[#295DFA]"
+                      : "text-[#94AEFF]"
+                  }  mb-4`}
+                  onClick={() => handlePageSwitch("golive")}
+                >
+                  <div className="flex justify-start items-center gap-4">
+                  <i class="fa fa-rss" aria-hidden="true"></i>
+                    <h1 className=" text-[16px]">Go Live</h1>
+                  </div>
+                </li>
+              </Link>
               <Link to="/addnews">
                 <li
                   className={`cursor-pointer  ${
@@ -274,7 +291,7 @@ const Drawer = () => {
 
           {/* page content */}
 
-          <div className="p-1">
+          <div className="p-1 mt-12">
             <Outlet />
           </div>
         </div>
