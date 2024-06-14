@@ -25,7 +25,7 @@ export const useRegisterHook = () => {
           const token = res?.data?.token;
           const userid = res?.data?.data?.user?._id;
           localStorage.setItem("token", token);
-          localStorage.setItem("userid", userid);
+          localStorage.setItem("user_id", userid);
           setLoading(false);
           navigate("/dashboard");
         } else {

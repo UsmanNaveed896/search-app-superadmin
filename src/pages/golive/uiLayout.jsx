@@ -1,28 +1,30 @@
-import { CallingState, LivestreamPlayer, StreamCall, StreamVideo, StreamVideoClient, useCall, useCallStateHooks, User } from '@stream-io/video-react-sdk';
-import { MyUiLayout } from './livestreaming';
+import React from 'react';
+import {
+  StreamVideoClient,
+  StreamVideo,
+  User,
+  StreamCall,
+} from "@stream-io/video-react-sdk";
+import LivestreamView from "./livestreaming";
 
+const getToken = localStorage.getItem('token'); // Retrieve token from localStorage
+const getUserId = localStorage.getItem('userid'); 
+const apiKey = "mmhfdzb5evj2";
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiTm9tX0Fub3IiLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL05vbV9Bbm9yIiwiaWF0IjoxNzE4MzA1ODcwLCJleHAiOjE3MTg5MTA2NzV9.2tGPTCroQM04hFWFFCMkDkjmCfFmVWU7zjOI0CTMf5Q";
+const userId = "Nom_Anor";
+const callId = "NiBm7zYutEs4";
 
+const user: User = { id: userId, name: "Tutorial" };
+const client = new StreamVideoClient({ apiKey, user, token });
+const call = client.call("livestream", callId);
+call.join({ create: true });
 
-export const Video = () => {
-    const apiKey = "nej8e6k9uufh";
-  const userId = "Padm__Amidala";
-  const callId = "livestream_9d001268-7747-41b6-8fac-5bb859b1dfb5";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJAc3RyZWFtLWlvL2Rhc2hib2FyZCIsImlhdCI6MTcxODI5OTUxOSwiZXhwIjoxNzE4Mzg1OTE5LCJ1c2VyX2lkIjoiIWFub24iLCJyb2xlIjoidmlld2VyIiwiY2FsbF9jaWRzIjpbImxpdmVzdHJlYW06bGl2ZXN0cmVhbV85ZDAwMTI2OC03NzQ3LTQxYjYtOGZhYy01YmI4NTliMWRmYjUiXX0.xNwwk6sahW_YeY9VFXWp_JQuj74Xj460YtrfmSBuR7I";
-  const user = {
-    id: userId,
-    name: "Oliver",
-    image: "https://getstream.io/random_svg/?id=oliver&name=Oliver",
-  };
-
-  const client=new StreamVideoClient({apiKey,token});
-  const call=client.call('default',callId);
-  
-    return (
-      <div>
-        <StreamVideo client={client}>
-        <LivestreamPlayer callType="livestream" callId={callId} />
-        </StreamVideo>
-      </div>
-    );
-  };
+export default function LiveStreaming() {
+  return (
+    <StreamVideo client={client}>
+      <StreamCall call={call}>
+        <LivestreamView call={call} />
+      </StreamCall>
+    </StreamVideo>
+  );
+}
