@@ -14,10 +14,10 @@ export const useVirtualOfficeHook = () => {
   const getAllVirtualOffices = async (data) => {
     setLoading(true);
     let headers={
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + token 
     }
     try {
-      const response = await axios.get("https://cors-anywhere.herokuapp.com/https://searchapp.ai/api/v1/virtualoffices", {headers});
+      const response = await axios.get(`https://cors-anywhere.herokuapp.com/https://searchapp.ai/api/v1/virtualoffices`, {headers});
       console.log(response,"response")
       setVirtualOffice(response?.data?.data);
       setLoading(false);

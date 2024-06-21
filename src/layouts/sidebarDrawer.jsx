@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Img4 from "../assets/Group143.png";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./style.css";
 
 const Drawer = () => {
+  const navigate=useNavigate()
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [loading, setLoading] = useState(true);
   const [selectedLink, setSelectedLink] = useState("");
@@ -23,6 +24,12 @@ const Drawer = () => {
       setShowDropdown(!showDropdown);
     }
   };
+
+  const handleLogout=()=>{
+    localStorage.removeItem('token')
+    localStorage.removeItem('user_id');
+    navigate('/login')
+  }
 
   return (
     <>
@@ -264,10 +271,10 @@ const Drawer = () => {
                   <h1 className="text-[#94AEFF] text-[16px]">Help</h1>
                 </div>
               </li>
-              <li className="cursor-pointer text-[#94AEFF] mb-4">
+              <li className="cursor-pointer text-[#94AEFF] hover:font-bold mb-4">
                 <div className="flex justify-start items-center gap-4">
                   {/* <img src={Img8} alt='profile' /> */}
-                  <h1 className="text-[#D55F5A] text-[16px]">Logout Account</h1>
+                  <h1 className="text-[#D55F5A] text-[16px] " onClick={handleLogout}>Logout Account</h1>
                 </div>
               </li>
             </ul>

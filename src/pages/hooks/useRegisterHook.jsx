@@ -21,7 +21,7 @@ export const useRegisterHook = () => {
       .then((res) => {
         if (res?.status == 200) {
           console.log(res, "response");
-          toast.success(res?.data?.status || "");
+          toast.success("Logged In Successfully");
           const token = res?.data?.token;
           const userid = res?.data?.data?.user?._id;
           localStorage.setItem("token", token);
@@ -36,7 +36,7 @@ export const useRegisterHook = () => {
       .catch((err) => {
         setLoading(false);
         console.log("err", err);
-        toast.error(err?.message);
+        toast.error(err?.response?.data?.message);
       });
   };
 
