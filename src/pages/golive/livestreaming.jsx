@@ -13,13 +13,17 @@ const LivestreamView = ({ call }) => {
 
   const { camera: cam, stream: camStream } = useCameraState();
   const { microphone: mic, isEnabled: isMicEnabled } = useMicrophoneState();
+  
+  // Add logging to debug microphone state
+  useEffect(() => {
+    console.log("Microphone state updated:", mic, isMicEnabled);
+  }, [mic, isMicEnabled]);
 
   const participantCount = useParticipantCount();
   const isLive = useIsCallLive();
 
   const [firstParticipant] = useParticipants();
   const [cameraOn, setCameraOn] = useState(false);
-  
 
   const handleCamera = () => {
     setCameraOn(!cameraOn);
@@ -37,7 +41,12 @@ const LivestreamView = ({ call }) => {
       console.error("Failed to toggle live status:", error);
     }
   };
-console.log(cameraOn,"camera on")
+
+  const handleMicToggle = () => {
+    console.log("Toggling microphone");
+    mic.toggle();
+  };
+
   return (
     <div className="flex flex-col gap-4 p-4 bg-gray-800 text-white">
       <div className="text-lg font-semibold">
@@ -63,9 +72,9 @@ console.log(cameraOn,"camera on")
         </button>
         <button
           className="p-2 rounded-full bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
-          onClick={() => mic.toggle()}
+          onClick={handleMicToggle}
         >
-          {isMicEnabled ? <FaMicrophoneSlash className="text-white w-6 h-6" /> : <FaMicrophone className="text-white w-6 h-6" />}
+          {!isMicEnabled ? <FaMicrophoneSlash className="text-white w-6 h-6" /> : <FaMicrophone className="text-white w-6 h-6" />}
         </button>
       </div>
     </div>
