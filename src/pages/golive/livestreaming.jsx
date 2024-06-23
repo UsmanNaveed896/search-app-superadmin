@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { ParticipantView, useCallStateHooks } from '@stream-io/video-react-sdk';
+import React, { useEffect, useState } from "react";
+import { ParticipantView, useCallStateHooks } from "@stream-io/video-react-sdk";
+import { FaVideo, FaVideoSlash, FaMicrophone, FaMicrophoneSlash, FaPlay, FaStop } from 'react-icons/fa';
 
 const LivestreamView = ({ call }) => {
   const {
@@ -10,22 +11,24 @@ const LivestreamView = ({ call }) => {
     useParticipants,
   } = useCallStateHooks();
 
-  const { camera: cam, isEnabled: isCamEnabled, stream: camStream } = useCameraState();
+  const { camera: cam, stream: camStream } = useCameraState();
   const { microphone: mic, isEnabled: isMicEnabled } = useMicrophoneState();
   
+  // Add logging to debug microphone state
+  useEffect(() => {
+    console.log("Microphone state updated:", mic, isMicEnabled);
+  }, [mic, isMicEnabled]);
+
   const participantCount = useParticipantCount();
   const isLive = useIsCallLive();
 
   const [firstParticipant] = useParticipants();
+  const [cameraOn, setCameraOn] = useState(false);
 
-  useEffect(() => {
-    console.log("Camera Enabled:", isCamEnabled);
-    if (camStream) {
-      console.log("Camera Stream:", camStream);
-    } else {
-      console.log("No camera stream available");
-    }
-  }, [isCamEnabled, camStream]);
+  const handleCamera = () => {
+    setCameraOn(!cameraOn);
+    cam.toggle();
+  };
 
   const handleGoLive = async () => {
     try {
@@ -39,23 +42,39 @@ const LivestreamView = ({ call }) => {
     }
   };
 
+  const handleMicToggle = () => {
+    console.log("Toggling microphone");
+    mic.toggle();
+  };
+
   return (
-    <div style={{ display: "flex", flexDirection: 'column', gap: '4px' }}>
-      <div>{isLive ? `Live: ${participantCount}` : `In Backstage`}</div>
+    <div className="flex flex-col gap-4 p-4 bg-gray-800 text-white">
+      <div className="text-lg font-semibold">
+        {isLive ? `Live: ${participantCount}` : `In Backstage`}
+      </div>
       {firstParticipant ? (
         <ParticipantView participant={firstParticipant} />
       ) : (
         <div>The host hasn't joined yet</div>
       )}
-      <div style={{ display: 'flex', gap: '4px'}}>
-        <button className='border-2' onClick={handleGoLive}>
-          {isLive ? "Stop Live" : "Start Live Stream"}
+      <div className="flex gap-4 mt-4 justify-center">
+        <button
+          className="p-2 rounded-full bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          onClick={handleGoLive}
+        >
+          {isLive ? <FaStop className="text-white w-6 h-6" /> : <FaPlay className="text-white w-6 h-6" />}
         </button>
-        <button className='border-2' onClick={() => cam.toggle()}>
-          {isCamEnabled ? "Disable camera" : "Enable camera"}
+        <button
+          className="p-2 rounded-full bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+          onClick={handleCamera}
+        >
+          {cameraOn ? <FaVideoSlash className="text-white w-6 h-6" /> : <FaVideo className="text-white w-6 h-6" />}
         </button>
-        <button className='border-2' onClick={() => mic.toggle()}>
-          {isMicEnabled ? "Mute Mic" : "Unmute Mic"}
+        <button
+          className="p-2 rounded-full bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+          onClick={handleMicToggle}
+        >
+          {!isMicEnabled ? <FaMicrophoneSlash className="text-white w-6 h-6" /> : <FaMicrophone className="text-white w-6 h-6" />}
         </button>
       </div>
     </div>
